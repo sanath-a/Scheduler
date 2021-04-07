@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import Course from "./Course";
+
 const CourseList = ({courses}) => (
   <ScrollView >
     <View style={styles.courseList}>
