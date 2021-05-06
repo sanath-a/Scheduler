@@ -3,6 +3,7 @@ import { StyleSheet, Text, SafeAreaView} from 'react-native';
 import CourseList from "../components/CourseList";
 import CourseEditScreen from "./CourseEditScreen";
 import UserContext from "../UserContext";
+import { firebase } from "../firebase";
 
 const ScheduleScreen = ({navigation}) => {
   const [schedule, setSchedule] = useState({ title: '', courses: [] });
@@ -14,15 +15,20 @@ const ScheduleScreen = ({navigation}) => {
     navigation.navigate(canEdit ? 'CourseEditScreen' : 'CourseDetailScreen', { course });
   };
 
+
+
+  const fixCourses = json => ({
+    ...json,
+    courses: Object.values(json.courses)
+  });
+  
   useEffect(() => {
-    const fetchSchedule = async () => {
-      const response = await fetch(url);
-      if (!response.ok) throw response;
-      const json = await response.json();
-      setSchedule(json);
-    }
-    fetchSchedule();
-  }, [])
+    const db = firebase.database().ref();
+    db.on('value', snap => {
+      if (snap.val()) setSchedule(fixCourses(snap.val()))    ;
+    }, error => console.log(error));
+    return () => { db.off('value', handleData); };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

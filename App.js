@@ -12,21 +12,6 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [user, setUser] = useState({role: "admin"});
-  const db = firebase.database().ref("posts/archived");
-
-  const fixCourses = json => ({
-    ...json,
-    courses: Object.values(json.courses)
-  });
-
-  useEffect(() => {
-    const db = firebase.database().ref();
-    db.on('value', snap => {
-      if (snap.val()) setSchedule(fixCourses(snap.val()))    ;
-    }, error => console.log(error));
-    
-  }, []);
-
   return (
     <UserContext.Provider value={user}>
     <NavigationContainer>
