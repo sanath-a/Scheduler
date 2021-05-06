@@ -12,6 +12,7 @@ const getCourseTerm = course => (
 const CourseList = ({courses, view}) => {
   const [selectedTerm, setSelectedTerm] = useState('Spring');
   const termCourses = courses.filter((course) => selectedTerm === getCourseTerm(course));
+
   return (
   <ScrollView >
       <TermSelector terms={terms} selectedTerm={selectedTerm} setSelectedTerm={setSelectedTerm}/>
