@@ -24,7 +24,7 @@ const App = () => {
     db.on('value', snap => {
       if (snap.val()) setSchedule(fixCourses(snap.val()))    ;
     }, error => console.log(error));
-    return () => { db.off('value', handleData); };
+    
   }, []);
 
   return (
